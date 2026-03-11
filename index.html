@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>로또 번호 추천</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="container">
+    <header class="header">
+      <h1>로또 번호 추천</h1>
+      <p class="subtitle">행운의 번호를 뽑아보세요</p>
+    </header>
+
+    <main class="main">
+      <div class="controls">
+        <label for="setCount">추천 세트 수</label>
+        <select id="setCount">
+          <option value="1">1세트</option>
+          <option value="3">3세트</option>
+          <option value="5">5세트</option>
+          <option value="10">10세트</option>
+        </select>
+        <button type="button" class="btn-generate" id="btnGenerate">번호 뽑기</button>
+      </div>
+
+      <section class="machine" aria-label="로또 추첨기">
+        <div class="machine-card">
+          <div class="machine-top">
+            <span class="machine-title">추첨기</span>
+            <span class="machine-status" id="machineStatus">대기 중</span>
+          </div>
+          <div class="machine-body" aria-hidden="true">
+            <div class="machine-window" id="machineWindow">
+              <div class="machine-balls" id="machineBalls"></div>
+              <div class="machine-glass" aria-hidden="true"></div>
+            </div>
+            <div class="machine-neck" aria-hidden="true"></div>
+            <div class="machine-base" aria-hidden="true"></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="results" id="results">
+        <p class="placeholder" id="placeholder">위 버튼을 눌러 번호를 뽑아보세요</p>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <p>※ 참고용이며, 당첨을 보장하지 않습니다. 적당히 즐기세요!</p>
+    </footer>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>
