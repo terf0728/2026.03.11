@@ -3,6 +3,15 @@
   const MAX = 45;
   const COUNT = 6;
 
+  // Supabase 설정: Vercel 빌드 시 build.js가 생성한 config.js에서 주입
+  const _cfg = (typeof window.__SUPABASE_CONFIG__ !== 'undefined') ? window.__SUPABASE_CONFIG__ : {};
+  const SUPABASE_URL = _cfg.url || '';
+  const SUPABASE_ANON_KEY = _cfg.key || '';
+  let supabaseClient = null;
+  if (typeof window.supabase !== 'undefined' && SUPABASE_URL && SUPABASE_ANON_KEY) {
+    supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  }
+
   const setCountEl = document.getElementById('setCount');
   const btnGenerate = document.getElementById('btnGenerate');
   const resultsEl = document.getElementById('results');
@@ -89,10 +98,26 @@
     return { main: main, bonus: bonus };
   }
 
+  async function saveLottoResult(numbers, bonus) {
+    if (!supabaseClient) return;
+    try {
+      const { error } = await supabaseClient
+        .from('lotto_results')
+        .insert({ numbers: numbers, bonus: bonus });
+      if (error) console.error('Supabase 저장 실패:', error);
+    } catch (e) {
+      console.error('Supabase 저장 오류:', e);
+    }
+  }
+
   function renderFinal() {
     const n = parseInt(setCountEl.value, 10);
     const sets = [];
     for (let i = 0; i < n; i++) sets.push(pickSet());
+
+    sets.forEach(function (setData) {
+      saveLottoResult(setData.main, setData.bonus);
+    });
 
     const fragment = document.createDocumentFragment();
     sets.forEach(function (setData, index) {
